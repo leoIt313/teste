@@ -1,0 +1,174 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div>
+    <div class="row">
+        <hr />
+        <div class="col-md-12">
+            <div class="col-md-10">
+                <div class="btn btn-success" onclick="modalAddUsuario()">Add Usuario</div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div align="center">
+                <table class="table table-hover TableUsuarios">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nome Completo</th>
+                            <th scope="col">E-mail</th>
+                            <th scope="col">Telefone</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @Html.Partial("_Usuarios")
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_CadastrarAlterar", new Teste.Application.ViewModel.Request.UsuariosViewModel())
+    @Html.Partial("_Excluir", new Teste.Application.ViewModel.Request.UsuariosViewModel())
+</div>
+
+
+<script>
+
+    function carregarUsuarios()
+    {
+         $.ajax({
+            url: '@Url.Action("GetAllUsuarios", "Home")',
+            type: 'get',
+            success: function (result) {
+                $("tbody").html(result);
+                fecharLoading();
+            },
+            error: function (er) {
+                fecharLoading();
+            }
+        });
+    }
+
+    function modalAddUsuario() {
+
+        $("#modalCadastrarAlterar").modal()
+        $("#modalCadastrarAlterarTitulo").text("Cadastrar usuario");
+
+        $("#btnOk").off().on("click", function ()
+        {
+            cadastrarUsuario();
+        })
+    }
+
+    function modalExcluirUsuario(id)
+    {
+        $("#modalExcluirUsuario").modal()
+        $("#idUsuario").val(id)
+    }
+
+    function modalAlterarUsuario(id) {
+
+        $("#modalCadastrarAlterar").modal()
+        $("#modalCadastrarAlterarTitulo").text("Alterar usuario");
+        $("#idUsuario").val(id)
+
+
+        $("#btnOk").off().on("click", function () {
+            alterarUsuario();
+        })
+    }
+
+    function cadastrarUsuario()
+    {
+        $("#modalCadastrarAlterar").modal('toggle');
+        abrirLoading();
+        $.ajax({
+            url: '@Url.Action("CadastrarUsuario", "Home")',
+            data: $('#formUsuario').serialize(),
+            type: 'POST',
+            dataType: 'json',
+            success: function (result) {
+
+                bootbox.alert({
+                    title: "<div align='center'>Alerta</div>",
+                    message: "<div align='center'>" +  result.mensagem +"</div>",
+                });
+                fecharLoading();
+
+                carregarUsuarios();
+            },
+            error: function (er) {
+                bootbox.alert({
+                    title: "<div align='center'>Erro</div>",
+                    message: "<div align='center'>" + er.responseJSON.mensagem + "</div>"
+                });
+
+                fecharLoading();
+
+            }
+        });
+    }
+ 
+    function alterarUsuario() {
+
+        $("#modalCadastrarAlterar").modal('toggle');
+        abrirLoading();
+        $.ajax({
+            url: '@Url.Action("AtualizarUsuario", "Home")',
+            data: $('#formUsuario').serialize(),
+            type: 'POST',
+            dataType: 'json',
+            success: function (result) {
+
+                bootbox.alert({
+                    title: "<div align='center'>Alerta</div>",
+                    message: "<div align='center'>" +  result.mensagem +"</div>",
+                });
+                fecharLoading();
+
+                carregarUsuarios();
+
+            },
+            error: function (er) {
+                bootbox.alert({
+                    title: "<div align='center'>Erro</div>",
+                    message: "<div align='center'>" + er.responseJSON.mensagem + "</div>"
+                });
+
+                fecharLoading();
+            }
+        });
+    }
+
+    function excluirUsuario() {
+        $("#modalExcluirUsuario").modal('toggle');
+        abrirLoading();
+        $.ajax({
+            url: '@Url.Action("DeletarUsuario", "Home")',
+            data: $('#formUsuario').serialize(),
+            type: 'POST',
+            dataType: 'json',
+            success: function (result) {
+
+                bootbox.alert({
+                    title: "<div align='center'>Alerta</div>",
+                    message: "<div align='center'>" +  result.mensagem +"</div>",
+                });
+                fecharLoading();
+
+                carregarUsuarios();
+
+            },
+            error: function (er) {
+                bootbox.alert({
+                    title: "<div align='center'>Erro</div>",
+                    message: "<div align='center'>" + er.responseJSON.mensagem + "</div>"
+                });
+
+                fecharLoading();
+            }
+        });
+    }
+
+</script>

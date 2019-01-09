@@ -1,0 +1,26 @@
+﻿@model List<Teste.Application.ViewModel.Response.UsuariosViewModel>
+@if (Model != null)
+{
+    if (Model.Any())
+    {
+        for (int i = 0; i < Model.Count; i++)
+        {
+            <tr>
+                <td>@Model[i].NomeCompleto</td>
+                <td>@Model[i].Email</td>
+                <td>@Model[i].Telefone</td>
+                <td>
+                    <input type="button" class="btn btn-info" value="Alterar"  onclick="modalAlterarUsuario('@Model[i].IdUsuario')"/>
+                    <input type="button" class="btn btn-danger" value="Excluir" onclick="modalExcluirUsuario('@Model[i].IdUsuario')" />
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="7"><label>Nenhum usuario recente foi encontrado: (</label> </td>
+        </tr>
+
+    }
+}

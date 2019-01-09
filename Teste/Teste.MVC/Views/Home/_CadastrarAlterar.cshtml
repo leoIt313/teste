@@ -1,0 +1,41 @@
+﻿@model Teste.Application.ViewModel.Request.UsuariosViewModel
+
+<div class="modal" id="modalCadastrarAlterar" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalCadastrarAlterarTitulo"></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formUsuario">
+                    <div class="form-group">
+                        @Html.HiddenFor(x => x.IdUsuario, new {  @id = "idUsuario" })
+                        <label for="nomeUsuario">Nome Completo</label>
+
+                        @Html.TextBoxFor(x => x.NomeCompleto, new { @class = "form-control", @id = "nomeUsuario", @placeholder = "Nome Completo" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="emailUsuario">Email</label>
+                        @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @id = "emailUsuario", @placeholder = "Email" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefoneUsuario">Telefone</label>
+                        @Html.TextBoxFor(x => x.Telefone, new { @class = "form-control", @id = "telefoneUsuario", @placeholder = "Telefone" })
+                    </div>
+                </form>
+               
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnOk">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
